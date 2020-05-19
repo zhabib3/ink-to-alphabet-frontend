@@ -1,19 +1,53 @@
 import React, { useRef, useEffect, useState } from "react";
+import { Container, Row, Col, Button, Spinner } from "react-bootstrap";
+import axios from "axios";
 import "./App.css";
-import { Container, Row, Col, Button } from "react-bootstrap";
 import DrawGrid from "./Components/DrawGrid";
+
 const primaryColor: string = "#675AF4";
+const FUNC_URL =
+  "https://ink-to-alphabet.azurewebsites.net/api/GetAlphabetPrediction";
 
 const App: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [width, setwidth] = useState(300);
   const [height, setheight] = useState(300);
+  const [predictedLetter, setPredictedLetter] = useState<string>("܂");
+  const [isLoading, setisLoading] = useState<boolean>(false);
 
   // Determine component sizes on load
   useEffect(() => {
     const w = window.innerWidth;
     // console.log(w);
   }, []);
+
+  const handlePredict = async (e: any) => {
+    setisLoading(true);
+    const canvas = canvasRef.current;
+    const canvasImgUrl = canvas?.toDataURL("image/png", 1.0);
+
+    try {
+      const response = await axios.post(FUNC_URL, {
+        imgURL: canvasImgUrl,
+      });
+      setPredictedLetter(response.data["Predicted Alphabet"]);
+      setisLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleClear = (e: any) => {
+    clearCanvas();
+    setPredictedLetter("܂")
+  }
+
+  const clearCanvas = () => {
+    const canvas: HTMLCanvasElement = canvasRef.current!;
+    const ctx = canvas.getContext("2d")!;
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0, 0, width, height);
+  }
 
   return (
     <div className="App">
@@ -57,7 +91,7 @@ const App: React.FC = () => {
                   alignItems: "center",
                 }}
               >
-                <h5 className="subheading">Drawing Grid</h5>
+                <h5 className="subheading">Draw a letter ✍</h5>
                 <DrawGrid width={width} height={height} canvasRef={canvasRef} />
               </Col>
 
@@ -72,17 +106,30 @@ const App: React.FC = () => {
                 }}
               >
                 <Button
-                  style={{ margin: 10 }}
+                  style={{
+                    margin: 10,
+                    borderRadius: 0,
+                    border: `1px solid ${primaryColor}`,
+                    backgroundColor: primaryColor,
+                  }}
                   className="btn btn-primary btn-large"
-                  onClick={(e: any) => {
-                    const canvas = canvasRef.current;
-                    const canvasImg = canvas?.toDataURL("image/png", 1.0);
-                    console.log(canvasImg);
+                  onClick={handlePredict}
+                >
+                  🤔 Predict
+                </Button>
+                <Button
+                  onClick={handleClear}
+                  className="btn btn-large"
+                  variant="outline-danger"
+                  style={{
+                    margin: 10,
+                    borderRadius: 0,
+                    // border: `1px solid ${primaryColor}`,
+                    // backgroundColor: "inherit",
                   }}
                 >
-                  Predict
+                  🚫 Clear
                 </Button>
-                <Button style={{ margin: 10 }}>Clear</Button>
               </Col>
 
               {/* Prediction Box  */}
@@ -94,7 +141,7 @@ const App: React.FC = () => {
                   alignItems: "center",
                 }}
               >
-                <h5 className="subheading">Predicted Letter</h5>
+                <h5 className="subheading">Predicted Alphabet 🔡</h5>
                 <div
                   style={{
                     width: `${width}px`,
@@ -106,7 +153,14 @@ const App: React.FC = () => {
                     display: "flex",
                   }}
                 >
-                  <h1 className="predicted">A a</h1>
+                  {isLoading ? (
+                    <Spinner animation="grow" />
+                  ) : (
+                    <h1 className="predicted">
+                      {predictedLetter.toUpperCase()}܁
+                      {predictedLetter.toLowerCase()}
+                    </h1>
+                  )}
                 </div>
               </Col>
             </Row>

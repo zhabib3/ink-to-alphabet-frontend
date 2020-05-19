@@ -70,7 +70,7 @@ const DrawGrid: React.FC<IProps> = ({ canvasRef, width, height }) => {
   return (
     <Fragment>
       <canvas
-        style={{ border: "2px solid #8B8B8B" }}
+        style={{ border: "2px solid #2d2d2d", cursor: 'crosshair' }}
         ref={canvasRef}
         width={width}
         height={height}
