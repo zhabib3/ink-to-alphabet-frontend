@@ -60,7 +60,7 @@ const App: React.FC = () => {
         <Row>
           <Col className="text-center" xs={3}>
           <p style={{marginTop: 10, lineHeight: 1.2}}>
-          🤖  <a href="">ML Model</a>
+          🤖  <a href="https://gist.github.com/zhabib3/bfe78648c20baaa5693e19ac2e11f553">ML Model</a>
           </p>
           </Col>
 
