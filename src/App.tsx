@@ -58,7 +58,11 @@ const App: React.FC = () => {
         fluid="xl"
       >
         <Row>
-          <Col></Col>
+          <Col className="text-center" xs={3}>
+          <p style={{marginTop: 10, lineHeight: 1.2}}>
+          🤖  <a href="">ML Model</a>
+          </p>
+          </Col>
 
           {/* Header */}
           <Col className="text-center" xs={6}>
@@ -67,7 +71,11 @@ const App: React.FC = () => {
             </h2>
           </Col>
 
-          <Col></Col>
+          <Col className="text-center" xs={3}>
+          <p style={{marginTop: 10, lineHeight: 1.2}}>
+          👨‍💻  <a href="">Zeeshan Habib</a>
+          </p>
+          </Col>
         </Row>
 
         <Row>
@@ -75,6 +83,7 @@ const App: React.FC = () => {
             className="text-center"
             style={{
               marginTop: 40,
+              marginBottom: 30,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -139,6 +148,7 @@ const App: React.FC = () => {
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
+
                 }}
               >
                 <h5 className="subheading">Predicted Alphabet 🔡</h5>
