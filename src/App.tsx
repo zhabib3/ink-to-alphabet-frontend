@@ -73,7 +73,7 @@ const App: React.FC = () => {
 
           <Col className="text-center" xs={3}>
           <p style={{marginTop: 10, lineHeight: 1.2}}>
-          👨‍💻  <a href="">Zeeshan Habib</a>
+          👨‍💻  <a href="http://zeeshanhabib.xyz/">Zeeshan Habib</a>
           </p>
           </Col>
         </Row>
